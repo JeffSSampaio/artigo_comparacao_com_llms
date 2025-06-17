@@ -5,12 +5,12 @@ modelo = lms.llm("google/gemma-2-9b")
 
 prompt = input("você:")
 
-inicio = time.time()
+inicio = time.perf_counter()
 
 resposta = modelo.respond(prompt)
 
-fim = time.time()
+fim = time.perf_counter()
 
 tempoResposta = fim - inicio
 
-print(f"Modelo gemma-2-9b\nPrompt: {prompt}\nResposta do modelo:{resposta}\nTempo de Resposta: {tempoResposta:.2f} segundos")
+print(f"Modelo gemma-2-9b\nPrompt: {prompt}\nResposta do modelo: {resposta}\nTempo de Resposta: {tempoResposta:.2f} segundos")
