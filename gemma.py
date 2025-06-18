@@ -3,7 +3,7 @@ import time as time
 
 modelo = lms.llm("google/gemma-2-9b")
 
-prompt = input("você:")
+prompt = input("Prompt:")
 
 inicio = time.perf_counter()
 
