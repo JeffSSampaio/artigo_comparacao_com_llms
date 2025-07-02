@@ -17,7 +17,17 @@ if not nltk.download('omw-1.4', quiet=True):
 
 modelo = lms.llm("google/gemma-2-9b")
 
-prompt = input("Prompt:")
+dados = []
+
+with open("prompts.txt", "r", encoding= "utf-8") as file:
+   prompts = [linha.strip() for linha in file.readlines()]
+
+with open("gabarito.txt", "r", encoding= "utf-8") as file:
+   gabarito = [linha.strip() for linha in file.readlines()]
+
+rouge_score = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
+
+for i,prompt in enumerate(prompts):
 
 inicio = time.perf_counter()
 
