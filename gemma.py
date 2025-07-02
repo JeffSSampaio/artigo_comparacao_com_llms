@@ -29,12 +29,29 @@ rouge_score = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemm
 
 for i,prompt in enumerate(prompts):
 
-inicio = time.perf_counter()
+    inicio = time.perf_counter()
 
-resposta = modelo.respond(prompt)
+    resposta = modelo.respond(prompt).content
 
-fim = time.perf_counter()
+    fim = time.perf_counter()
 
-tempoResposta = fim - inicio
+    tempoResposta = fim - inicio
 
-print(f"Modelo gemma-2-9b\nPrompt: {prompt}\nResposta do modelo: {resposta}\nTempo de Resposta: {tempoResposta:.2f} segundos")
+    referencia = gabarito[i]
+
+    resposta_tokens = resposta.split()
+    referencia_tokens = referencia.split()
+
+    smoothie = SmoothingFunction().method4
+    bleu = sentence_bleu([referencia_tokens], resposta_tokens)
+    meteor = meteor_score([referencia_tokens], resposta_tokens)
+    rouge = rouge_score.score(referencia, resposta)
+    
+    print("--------------------------------------------------")
+    print(f"Modelo gemma-2-9b\nPrompt: {prompt}\nResposta do modelo: {resposta}\nTempo de Resposta: {tempoResposta:.2f} segundos")
+    print(f"BLEU: {bleu}\nMETEOR: {meteor:.4f}\nROUGE1: {rouge['rouge1'].fmeasure:.4f}\nROUGE2: {rouge['rouge2'].fmeasure:.4f}\nROUGEL: {rouge['rougeL'].fmeasure:.4f}\n")
+    print("--------------------------------------------------")
+    dataDeExecucao = date.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    dados.append([dataDeExecucao,"gemma-2-9b",prompt, resposta, tempoResposta, bleu, meteor, rouge['rouge1'].fmeasure, rouge['rouge2'].fmeasure, rouge['rougeL'].fmeasure])
+
+atualizar_planilha("resultados.csv", dadosAtualizados=dados)
