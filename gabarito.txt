@@ -1,0 +1,1 @@
+"Uma variável em programação é um espaço na memória usado para armazenar dados temporários que podem ser utilizados e manipulados ao longo do código.Uma variável é usada para guardar informações. Por exemplo:```pytho nome = "Jeff" # A variável 'nome' armazena a string 'Jeff' "
